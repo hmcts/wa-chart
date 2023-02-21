@@ -1,0 +1,167 @@
+tags:
+  wa: true
+
+#subcharts conditions
+wa:
+  taskManagement:
+    enabled: true
+  taskMonitor:
+    enabled: true
+  eventHandler:
+    enabled: true
+  workflow:
+    enabled: true
+  taskBatchCron:
+    enabled: true
+  messageCron:
+    enabled: true
+  camunda:
+    enabled: true
+
+global:
+  postgresHost: "{{ .Release.Name }}-postgresql"
+  postgresUsername: hmcts
+  postgresPassword: hmcts
+
+wa-task-management-api:
+  java:
+    releaseNameOverride: ${SERVICE_NAME}-wa-task-management-api
+    ingressHost: wa-task-management-api-${SERVICE_FQDN}
+    keyVaults:
+      wa:
+        secrets:
+          - name: app-insights-connection-string
+            alias: app-insights-connection-string
+          - name: wa-system-username
+            alias: WA_SYSTEM_USERNAME
+          - name: wa-system-password
+            alias: WA_SYSTEM_PASSWORD
+          - name: wa-idam-client-secret
+            alias: WA_IDAM_CLIENT_SECRET
+          - name: s2s-secret-task-management-api
+            alias: S2S_SECRET_TASK_MANAGEMENT_API
+          - name: ld-secret
+            alias: LAUNCH_DARKLY_SDK_KEY
+    environment:
+      CAMUNDA_URL: http://{{ .Release.Name }}-camunda/engine-rest
+      ROLE_ASSIGNMENT_URL: http://{{ .Release.Name }}-am-role-assignment-service
+      POSTGRES_NAME: cft_task_db
+      POSTGRES_HOST: '{{ tpl .Values.global.postgresHost $}}'
+      POSTGRES_USERNAME: '{{ tpl .Values.global.postgresUsername $}}'
+      POSTGRES_PASSWORD: '{{ tpl .Values.global.postgresPassword $}}'
+      POSTGRES_CONNECTION_OPTIONS: ""
+      CCD_URL: http://{{ .Release.Name }}-ccd-data-store-api
+
+wa-task-monitor:
+  java:
+    ingressHost: wa-task-monitor-${SERVICE_FQDN}
+    releaseNameOverride: ${SERVICE_NAME}-wa-task-monitor
+    keyVaults:
+      wa:
+        secrets:
+          - name: app-insights-connection-string
+            alias: app-insights-connection-string
+          - name: s2s-secret-task-monitor
+            alias: S2S_SECRET_TASK_MONITOR
+          - name: wa-system-username
+            alias: WA_SYSTEM_USERNAME
+          - name: wa-system-password
+            alias: WA_SYSTEM_PASSWORD
+          - name: wa-idam-client-secret
+            alias: WA_IDAM_CLIENT_SECRET
+    environment:
+      CAMUNDA_URL: http://{{ .Release.Name }}-camunda/engine-rest
+      TASK_MANAGEMENT_SERVICE_URL: http://{{ .Release.Name }}-wa-task-management-api
+      CASE_EVENT_HANDLER_SERVICE_URL: http://{{ .Release.Name }}-wa-case-event-handler
+      CCD_SEARCH_URL: http://{{ .Release.Name }}-ccd-data-store-api
+      CCD_URL: http://{{ .Release.Name }}-ccd-data-store-api
+      ROLE_ASSIGNMENT_URL: http://{{ .Release.Name }}-am-role-assignment-service
+
+wa-case-event-handler:
+  java:
+    ingressHost: wa-case-event-handler-${SERVICE_FQDN}
+    releaseNameOverride: ${SERVICE_NAME}-wa-case-event-handler
+    secrets:
+      AZURE_SERVICE_BUS_CONNECTION_STRING:
+        secretRef: civil-work-allocation-secret
+        key: connectionString
+    keyVaults:
+      wa:
+        secrets:
+          - name: app-insights-connection-string
+            alias: app-insights-connection-string
+          - name: s2s-secret-case-event-handler
+            alias: S2S_SECRET_CASE_EVENT_HANDLER
+          - name: ld-secret
+            alias: LAUNCH_DARKLY_SDK_KEY
+          - name: wa-idam-client-secret
+            alias: WA_IDAM_CLIENT_SECRET
+    environment:
+      CAMUNDA_URL: http://{{ .Release.Name }}-camunda/engine-rest
+      CCD_URL: http://{{ .Release.Name }}-ccd-data-store-api
+      CCD_SEARCH_URL: http://{{ .Release.Name }}-ccd-data-store-api
+      ROLE_ASSIGNMENT_URL: http://{{ .Release.Name }}-am-role-assignment-service
+      WA_WORKFLOW_API_URL: http://{{ .Release.Name }}-wa-workflow-api
+      WA_TASK_MANAGEMENT_API_URL: http://{{ .Release.Name }}-wa-task-management-api
+      AZURE_SERVICE_BUS_TOPIC_NAME: ccd-case-events
+      AZURE_SERVICE_BUS_SUBSCRIPTION_NAME: ccd-case-events
+      AZURE_SERVICE_BUS_CCD_CASE_EVENTS_SUBSCRIPTION_NAME: ccd-case-events
+      POSTGRES_NAME: wa-case-event-handler
+      POSTGRES_HOST: '{{ tpl .Values.global.postgresHost $}}'
+      POSTGRES_USERNAME: '{{ tpl .Values.global.postgresUsername $}}'
+      POSTGRES_PASSWORD: '{{ tpl .Values.global.postgresPassword $}}'
+      POSTGRES_CONNECTION_OPTIONS: ""
+
+wa-workflow-api:
+  java:
+    ingressHost: wa-workflow-api-${SERVICE_FQDN}
+    releaseNameOverride: ${SERVICE_NAME}-wa-workflow-api
+    keyVaults:
+      wa:
+        secrets:
+          - name: app-insights-connection-string
+            alias: app-insights-connection-string
+          - name: s2s-secret-workflow-api
+            alias: S2S_SECRET_WORKFLOW_API
+          - name: ld-secret
+            alias: LAUNCH_DARKLY_SDK_KEY
+    environment:
+      CAMUNDA_URL: http://{{ .Release.Name }}-camunda/engine-rest
+      POSTGRES_NAME: wa_workflow_api
+      POSTGRES_HOST: '{{ tpl .Values.global.postgresHost $}}'
+      POSTGRES_USERNAME: '{{ tpl .Values.global.postgresUsername $}}'
+      POSTGRES_PASSWORD: '{{ tpl .Values.global.postgresPassword $}}'
+      POSTGRES_CONNECTION_OPTIONS: ""
+      TASK_MANAGEMENT_URL: http://{{ .Release.Name }}-wa-task-management-api
+
+wa-message-cron-service:
+  job:
+    releaseNameOverride: ${SERVICE_NAME}-wa-message-cron-service
+    keyVaults:
+      wa:
+        secrets:
+          - s2s-secret-case-event-handler
+    environment:
+      WA_CASE_EVENT_HANDLER_SERVICE_URL: http://{{ .Release.Name }}-wa-case-event-handler
+
+postgresql:
+  image:
+    tag: '11.16.0'
+  auth:
+    username: '{{ tpl .Values.global.postgresUsername $}}'
+    password: '{{ tpl .Values.global.postgresPassword $}}'
+    database: wa
+  ## Disable Postgres Persistence
+  primary:
+    persistence:
+      enabled: false
+    resources:
+      requests:
+        cpu: 25m
+    initdb:
+      scripts:
+        init.sql: |
+          CREATE DATABASE "cft_task_db" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+          CREATE DATABASE "wa-case-event-handler" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+          CREATE DATABASE "wa_workflow_api" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+

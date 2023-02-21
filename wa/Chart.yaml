@@ -1,0 +1,41 @@
+apiVersion: v2
+description: A Helm chart for the Work Allocation product.
+name: wa
+# Static chart version, as uses tag
+version: 0.1.0 # Do not change
+keywords:
+  - wa
+  - work allocation
+dependencies:
+  - name: wa-task-management-api
+    version: ~0.0.37
+    repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
+    condition: wa.taskManagement.enabled
+  - name: wa-task-monitor
+    version: ~0.0.27
+    repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
+    condition: wa.taskMonitor.enabled
+  - name: wa-case-event-handler
+    version: ~0.0.30
+    repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
+    condition: wa.eventHandler.enabled
+  - name: wa-workflow-api
+    version: ~0.0.26
+    repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
+    condition: wa.workflow.enabled
+  - name: wa-task-batch-service
+    version: ~0.0.15
+    repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
+    condition: wa.taskBatchCron.enabled
+  - name: wa-message-cron-service
+    version: ~0.0.3
+    repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
+    condition: wa.messageCron.enabled
+  - name: camunda-bpm
+    version: 0.0.28
+    repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
+    condition: wa.camunda.enabled
+  - name: postgresql
+    version: 11.6.10
+    repository: https://charts.bitnami.com/bitnami
+    condition: wa.postgresql.enabled
