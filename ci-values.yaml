@@ -14,3 +14,7 @@ wa:
     enabled: true
   postgresql:
     enabled: false
+
+ccd:
+  adminWeb:
+    enabled: false
