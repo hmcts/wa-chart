@@ -8,6 +8,8 @@ livenessDelay: 90
 
 global:
   tenantId: "531ff96d-0ae9-462a-8d2d-bec7c0b42082"
+  ccdAdminWebIngress: wa-chart-release.service.core-compute-preview.internal
+  environment: aat
 
 wa:
   ccd:
@@ -15,6 +17,3 @@ wa:
   postgresql:
     enabled: false
 
-ccd:
-  adminWeb:
-    enabled: false
