@@ -17,6 +17,8 @@ wa:
     enabled: true
   camunda:
     enabled: true
+  postgresql:
+    enabled: true
   ccd:
     enabled: false
 

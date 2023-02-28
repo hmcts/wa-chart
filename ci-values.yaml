@@ -12,3 +12,5 @@ global:
 wa:
   ccd:
     enabled: true
+  postgresql:
+    enabled: false
