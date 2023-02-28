@@ -17,6 +17,8 @@ wa:
     enabled: true
   camunda:
     enabled: true
+  ccd:
+    enabled: false
 
 global:
   postgresHost: "{{ .Release.Name }}-postgresql"
