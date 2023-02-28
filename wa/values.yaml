@@ -26,7 +26,7 @@ global:
 wa-task-management-api:
   java:
     releaseNameOverride: ${SERVICE_NAME}-wa-task-management-api
-    ingressHost: wa-task-management-api-${SERVICE_FQDN}
+    ingressHost: ""
     keyVaults:
       wa:
         secrets:
@@ -54,7 +54,7 @@ wa-task-management-api:
 
 wa-task-monitor:
   java:
-    ingressHost: wa-task-monitor-${SERVICE_FQDN}
+    ingressHost: ""
     releaseNameOverride: ${SERVICE_NAME}-wa-task-monitor
     keyVaults:
       wa:
@@ -79,7 +79,7 @@ wa-task-monitor:
 
 wa-case-event-handler:
   java:
-    ingressHost: wa-case-event-handler-${SERVICE_FQDN}
+    ingressHost: ""
     releaseNameOverride: ${SERVICE_NAME}-wa-case-event-handler
     secrets:
       AZURE_SERVICE_BUS_CONNECTION_STRING:
@@ -114,8 +114,8 @@ wa-case-event-handler:
 
 wa-workflow-api:
   java:
-    ingressHost: wa-workflow-api-${SERVICE_FQDN}
-    releaseNameOverride: ${SERVICE_NAME}-wa-workflow-api
+    ingressHost: ""
+    releaseNameOverride: {{ .Release.Name }}-wa-workflow-api
     keyVaults:
       wa:
         secrets:
