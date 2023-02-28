@@ -25,7 +25,7 @@ global:
 
 wa-task-management-api:
   java:
-    releaseNameOverride: ${SERVICE_NAME}-wa-task-management-api
+    releaseNameOverride: "{{ .Release.Name }}-wa-task-management-api"
     ingressHost: ""
     keyVaults:
       wa:
@@ -55,7 +55,7 @@ wa-task-management-api:
 wa-task-monitor:
   java:
     ingressHost: ""
-    releaseNameOverride: ${SERVICE_NAME}-wa-task-monitor
+    releaseNameOverride: "{{ .Release.Name }}-wa-task-monitor"
     keyVaults:
       wa:
         secrets:
@@ -80,7 +80,7 @@ wa-task-monitor:
 wa-case-event-handler:
   java:
     ingressHost: ""
-    releaseNameOverride: ${SERVICE_NAME}-wa-case-event-handler
+    releaseNameOverride: "{{ .Release.Name }}-wa-case-event-handler"
     secrets:
       AZURE_SERVICE_BUS_CONNECTION_STRING:
         secretRef: civil-work-allocation-secret
@@ -115,7 +115,7 @@ wa-case-event-handler:
 wa-workflow-api:
   java:
     ingressHost: ""
-    releaseNameOverride: {{ .Release.Name }}-wa-workflow-api
+    releaseNameOverride: "{{ .Release.Name }}-wa-workflow-api"
     keyVaults:
       wa:
         secrets:
@@ -136,7 +136,7 @@ wa-workflow-api:
 
 wa-message-cron-service:
   job:
-    releaseNameOverride: ${SERVICE_NAME}-wa-message-cron-service
+    releaseNameOverride: "{{ .Release.Name }}-wa-message-cron-service"
     keyVaults:
       wa:
         secrets:
