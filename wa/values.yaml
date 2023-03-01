@@ -87,7 +87,7 @@ wa-case-event-handler:
     releaseNameOverride: "{{ .Release.Name }}-wa-case-event-handler"
     secrets:
       AZURE_SERVICE_BUS_CONNECTION_STRING:
-        secretRef: civil-work-allocation-secret
+        secretRef: servicebus-secret-namespace-{{ .Release.Name }}-servicebus-ccd-case-events
         key: connectionString
     keyVaults:
       wa:
