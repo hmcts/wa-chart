@@ -15,3 +15,12 @@ wa:
   postgresql:
     enabled: false
 
+servicebus:
+  enabled: true
+  teamName: WA
+  resourceGroup: chart-servicebus-test
+  serviceplan: standard
+  setup:
+    topics:
+      - name: ccd-case-events
+        subscriptionNeeded: yes
