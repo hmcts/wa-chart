@@ -16,8 +16,13 @@ wa:
     enabled: false
 
 servicebus:
+  tags:
+    teamName: "Work Allocation"
+    applicationName: "event handler"
+    builtFrom: "https://github.com/hmcts/wa-chart"
+    businessArea: "CFT"
+    environment: "development"
   enabled: true
-  teamName: WA
   resourceGroup: chart-servicebus-test
   serviceplan: standard
   setup:
