@@ -29,4 +29,3 @@ servicebus:
     topics:
       - name: ccd-case-events
         subscriptionNeeded: yes
-
