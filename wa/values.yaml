@@ -19,7 +19,7 @@ wa:
     enabled: true
   postgresql:
     enabled: true
-  ccd:
+  servicebus:
     enabled: false
 
 global:
