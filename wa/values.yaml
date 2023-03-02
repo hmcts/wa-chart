@@ -164,7 +164,6 @@ postgresql:
     username: '{{ tpl .Values.global.postgresUsername $}}'
     password: '{{ tpl .Values.global.postgresPassword $}}'
     postgresqlPassword: '{{ tpl .Values.global.postgresPassword $}}'
-  ## Disable Postgres Persistence
   primary:
     persistence:
       enabled: false
