@@ -12,8 +12,6 @@ global:
 wa:
   servicebus:
     enabled: true
-  postgresql:
-    enabled: false
 
 servicebus:
   tags:
