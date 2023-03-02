@@ -150,7 +150,7 @@ wa-message-cron-service:
 
 camunda-bpm:
   java:
-    ingressHost: camunda-${SERVICE_FQDN}
+    ingressHost: "{{ .Release.Name }}-camunda"
 
 postgresql:
   image:
