@@ -154,6 +154,8 @@ camunda-bpm:
     ingressHost: "{{ .Release.Name }}-camunda"
 
 postgresql:
+  releaseNameOverride: "{{ .Release.Name }}-postgresql"
+
   image:
     tag: '11.16.0'
   auth:
