@@ -26,6 +26,7 @@ global:
   postgresHost: "{{ .Release.Name }}-postgresql"
   postgresUsername: hmcts
   postgresPassword: hmcts
+  environment: aat
 
 wa-task-management-api:
   java:
