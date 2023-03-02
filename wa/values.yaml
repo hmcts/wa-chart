@@ -148,6 +148,10 @@ wa-message-cron-service:
     environment:
       WA_CASE_EVENT_HANDLER_SERVICE_URL: http://{{ .Release.Name }}-wa-case-event-handler
 
+camunda-bpm:
+  java:
+    ingressHost: camunda-${SERVICE_FQDN}
+
 postgresql:
   image:
     tag: '11.16.0'
