@@ -2,4 +2,3 @@
 
 Product chart for Work Allocation.
 
-WIP.

@@ -3,11 +3,11 @@ CHART := wa
 RELEASE := chart-${CHART}-release
 NAMESPACE := chart-tests
 TEST := ${RELEASE}-test-service
-ACR := hmctssandbox
-AKS_RESOURCE_GROUP := sbox-00-rg
-AKS_CLUSTER := sbox-00-aks
+ACR := hmctspublic
+AKS_RESOURCE_GROUP := cft-preview-00-rg
+AKS_CLUSTER := cft-preview-00-aks
 HELM_REPO := hmctspublic
-ACR_SUBSCRIPTION := DCD-CFTAPPS-SBOX
+ACR_SUBSCRIPTION := DCD-CFTAPPS-DEV
 
 setup:
 	az account set --subscription ${ACR_SUBSCRIPTION}
