@@ -21,7 +21,7 @@ servicebus:
     businessArea: "CFT"
     environment: "development"
   enabled: true
-  resourceGroup: chart-servicebus-test
+  resourceGroup: chart-tests-aso-preview-rg
   sbNamespace: chart-tests-sb-preview
   setup:
     topics:
