@@ -22,7 +22,7 @@ servicebus:
     environment: "development"
   enabled: true
   resourceGroup: chart-servicebus-test
-  sbNamespace: chart-servicebus-test
+  sbNamespace: chart-tests
   setup:
     topics:
       - name: ccd-case-events
