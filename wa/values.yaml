@@ -181,8 +181,8 @@ postgresql:
     repository: imported/bitnami/postgresql
     tag: '11.6.0'
   auth:
-    username: '{{ tpl .Values.global.postgresUsername $}}'
-    password: '{{ tpl .Values.global.postgresPassword $}}'
+    username: hmcts
+    password: hmcts
   primary:
     persistence:
       enabled: false
