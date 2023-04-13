@@ -171,6 +171,7 @@ wa-task-batch-service:
 
 camunda-bpm:
   java:
+    releaseNameOverride: "{{ .Release.Name }}-camunda"
     ingressHost: "{{ .Release.Name }}-camunda"
     environment:
       CAMUNDA_DB_HOST: '{{ tpl .Values.global.postgresHost $}}'
@@ -178,7 +179,7 @@ camunda-bpm:
       CAMUNDA_DB_PASSWORD: '{{ tpl .Values.global.postgresPassword $}}'
       CAMUNDA_DB_CONN_OPTIONS: ""
       TASK_MANAGEMENT_API_URL: http://{{ .Release.Name }}-wa-task-management-api
-      DATABASESCHEMAUPDATE: true
+      CAMUNDA_BPM_DATABASE_DATABASE_SCHEMAUPDATE: true
 
 postgresql:
   releaseNameOverride: "{{ .Release.Name }}-postgresql"
