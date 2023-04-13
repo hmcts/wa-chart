@@ -172,6 +172,12 @@ wa-task-batch-service:
 camunda-bpm:
   java:
     ingressHost: "{{ .Release.Name }}-camunda"
+    environment:
+      CAMUNDA_DB_HOST: '{{ tpl .Values.global.postgresHost $}}'
+      CAMUNDA_DB_USER_NAME: '{{ tpl .Values.global.postgresUsername $}}'
+      CAMUNDA_DB_PASSWORD: '{{ tpl .Values.global.postgresPassword $}}'
+      CAMUNDA_DB_CONN_OPTIONS: ""
+      TASK_MANAGEMENT_API_URL: http://{{ .Release.Name }}-wa-task-management-api
 
 postgresql:
   releaseNameOverride: "{{ .Release.Name }}-postgresql"
@@ -196,4 +202,5 @@ postgresql:
           CREATE DATABASE "cft_task_db" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
           CREATE DATABASE "wa-case-event-handler" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
           CREATE DATABASE "wa_workflow_api" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+          CREATE DATABASE "camunda" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
 
