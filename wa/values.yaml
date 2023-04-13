@@ -88,7 +88,7 @@ wa-case-event-handler:
     releaseNameOverride: "{{ .Release.Name }}-wa-case-event-handler"
     secrets:
       AZURE_SERVICE_BUS_CONNECTION_STRING:
-        secretRef: servicebus-secret-namespace-{{ .Release.Name }}-servicebus-ccd-case-events
+        secretRef: servicebus-access
         key: connectionString
     keyVaults:
       wa:
@@ -180,6 +180,8 @@ camunda-bpm:
       CAMUNDA_DB_CONN_OPTIONS: ""
       TASK_MANAGEMENT_API_URL: http://{{ .Release.Name }}-wa-task-management-api
       CAMUNDA_BPM_DATABASE_SCHEMAUPDATE: true
+      RELEASE_REVISION: "{{ .Release.Revision }}"
+      CAMUNDA_API_AUTH_ENABLED: false
 
 postgresql:
   releaseNameOverride: "{{ .Release.Name }}-postgresql"
