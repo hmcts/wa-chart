@@ -52,7 +52,7 @@ wa-task-management-api:
       ROLE_ASSIGNMENT_URL: http://{{ .Release.Name }}-am-role-assignment-service
       POSTGRES_NAME: cft_task_db
       POSTGRES_HOST: '{{ tpl .Values.global.postgresHost $}}'
-      POSTGRES_USERNAME: '{{ tpl .Values.global.postgresUsername $}}'
+      POSTGRES_USERNAME: postgres # needs to use admin to install plugin
       POSTGRES_PASSWORD: '{{ tpl .Values.global.postgresPassword $}}'
       POSTGRES_CONNECTION_OPTIONS: ""
       CCD_URL: http://{{ .Release.Name }}-ccd-data-store-api
@@ -183,7 +183,7 @@ postgresql:
   auth:
     username: '{{ tpl .Values.global.postgresUsername $}}'
     password: '{{ tpl .Values.global.postgresPassword $}}'
-    postgresqlPassword: '{{ tpl .Values.global.postgresPassword $}}'
+    postgresPassword: '{{ tpl .Values.global.postgresPassword $}}'
   primary:
     persistence:
       enabled: false
