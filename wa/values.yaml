@@ -178,6 +178,7 @@ camunda-bpm:
       CAMUNDA_DB_PASSWORD: '{{ tpl .Values.global.postgresPassword $}}'
       CAMUNDA_DB_CONN_OPTIONS: ""
       TASK_MANAGEMENT_API_URL: http://{{ .Release.Name }}-wa-task-management-api
+      DATABASESCHEMAUPDATE: true
 
 postgresql:
   releaseNameOverride: "{{ .Release.Name }}-postgresql"
