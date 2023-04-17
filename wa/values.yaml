@@ -116,6 +116,7 @@ wa-case-event-handler:
       POSTGRES_USERNAME: '{{ tpl .Values.global.postgresUsername $}}'
       POSTGRES_PASSWORD: '{{ tpl .Values.global.postgresPassword $}}'
       POSTGRES_CONNECTION_OPTIONS: ""
+      RECEIVED_MESSAGE_HEALTH_CHECK: disabled
 
 wa-workflow-api:
   java:
