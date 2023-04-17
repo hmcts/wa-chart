@@ -24,11 +24,11 @@ dependencies:
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
     condition: wa.workflow.enabled
   - name: wa-task-batch-service
-    version: ~0.0.15
+    version: ~0.0.16
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
     condition: wa.taskBatchCron.enabled
   - name: wa-message-cron-service
-    version: ~0.0.3
+    version: ~0.0.4
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
     condition: wa.messageCron.enabled
   - name: camunda-bpm
@@ -39,3 +39,7 @@ dependencies:
     version: 11.9.13
     repository: https://charts.bitnami.com/bitnami
     condition: wa.postgresql.enabled
+  - name: servicebus
+    version: 1.0.2
+    repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
+    condition: wa.servicebus.enabled

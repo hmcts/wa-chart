@@ -17,16 +17,21 @@ wa:
     enabled: true
   camunda:
     enabled: true
+  postgresql:
+    enabled: true
+  servicebus:
+    enabled: false
 
 global:
   postgresHost: "{{ .Release.Name }}-postgresql"
   postgresUsername: hmcts
   postgresPassword: hmcts
+  environment: aat
 
 wa-task-management-api:
   java:
-    releaseNameOverride: ${SERVICE_NAME}-wa-task-management-api
-    ingressHost: wa-task-management-api-${SERVICE_FQDN}
+    releaseNameOverride: "{{ .Release.Name }}-wa-task-management-api"
+    ingressHost: ""
     keyVaults:
       wa:
         secrets:
@@ -47,15 +52,15 @@ wa-task-management-api:
       ROLE_ASSIGNMENT_URL: http://{{ .Release.Name }}-am-role-assignment-service
       POSTGRES_NAME: cft_task_db
       POSTGRES_HOST: '{{ tpl .Values.global.postgresHost $}}'
-      POSTGRES_USERNAME: '{{ tpl .Values.global.postgresUsername $}}'
+      POSTGRES_USERNAME: postgres
       POSTGRES_PASSWORD: '{{ tpl .Values.global.postgresPassword $}}'
       POSTGRES_CONNECTION_OPTIONS: ""
       CCD_URL: http://{{ .Release.Name }}-ccd-data-store-api
 
 wa-task-monitor:
   java:
-    ingressHost: wa-task-monitor-${SERVICE_FQDN}
-    releaseNameOverride: ${SERVICE_NAME}-wa-task-monitor
+    ingressHost: ""
+    releaseNameOverride: "{{ .Release.Name }}-wa-task-monitor"
     keyVaults:
       wa:
         secrets:
@@ -79,11 +84,11 @@ wa-task-monitor:
 
 wa-case-event-handler:
   java:
-    ingressHost: wa-case-event-handler-${SERVICE_FQDN}
-    releaseNameOverride: ${SERVICE_NAME}-wa-case-event-handler
+    ingressHost: ""
+    releaseNameOverride: "{{ .Release.Name }}-wa-case-event-handler"
     secrets:
       AZURE_SERVICE_BUS_CONNECTION_STRING:
-        secretRef: civil-work-allocation-secret
+        secretRef: servicebus-access
         key: connectionString
     keyVaults:
       wa:
@@ -103,19 +108,20 @@ wa-case-event-handler:
       ROLE_ASSIGNMENT_URL: http://{{ .Release.Name }}-am-role-assignment-service
       WA_WORKFLOW_API_URL: http://{{ .Release.Name }}-wa-workflow-api
       WA_TASK_MANAGEMENT_API_URL: http://{{ .Release.Name }}-wa-task-management-api
-      AZURE_SERVICE_BUS_TOPIC_NAME: ccd-case-events
-      AZURE_SERVICE_BUS_SUBSCRIPTION_NAME: ccd-case-events
-      AZURE_SERVICE_BUS_CCD_CASE_EVENTS_SUBSCRIPTION_NAME: ccd-case-events
+      AZURE_SERVICE_BUS_TOPIC_NAME: "{{ .Release.Name }}-servicebus-ccd-case-events"
+      AZURE_SERVICE_BUS_SUBSCRIPTION_NAME: "{{ .Release.Name }}-servicebus-ccd-case-events"
+      AZURE_SERVICE_BUS_CCD_CASE_EVENTS_SUBSCRIPTION_NAME: "{{ .Release.Name }}-servicebus-ccd-case-events"
       POSTGRES_NAME: wa-case-event-handler
       POSTGRES_HOST: '{{ tpl .Values.global.postgresHost $}}'
       POSTGRES_USERNAME: '{{ tpl .Values.global.postgresUsername $}}'
       POSTGRES_PASSWORD: '{{ tpl .Values.global.postgresPassword $}}'
       POSTGRES_CONNECTION_OPTIONS: ""
+      RECEIVED_MESSAGE_HEALTH_CHECK: disabled
 
 wa-workflow-api:
   java:
-    ingressHost: wa-workflow-api-${SERVICE_FQDN}
-    releaseNameOverride: ${SERVICE_NAME}-wa-workflow-api
+    ingressHost: ""
+    releaseNameOverride: "{{ .Release.Name }}-wa-workflow-api"
     keyVaults:
       wa:
         secrets:
@@ -136,7 +142,10 @@ wa-workflow-api:
 
 wa-message-cron-service:
   job:
-    releaseNameOverride: ${SERVICE_NAME}-wa-message-cron-service
+    releaseNameOverride: "{{ .Release.Name }}-wa-message-cron-service"
+    kind: CronJob
+    schedule: "*/5 * * * *"
+    aadIdentityName: wa
     keyVaults:
       wa:
         secrets:
@@ -144,14 +153,48 @@ wa-message-cron-service:
     environment:
       WA_CASE_EVENT_HANDLER_SERVICE_URL: http://{{ .Release.Name }}-wa-case-event-handler
 
+wa-task-batch-service:
+  job:
+    releaseNameOverride: "{{ .Release.Name }}-wa-task-batch-service"
+    kind: CronJob
+    schedule: "*/5 * * * *"
+    aadIdentityName: wa
+    keyVaults:
+      wa:
+        secrets:
+          - s2s-secret-task-monitor
+    environment:
+      S2S_URL: "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
+      S2S_MICROSERVICE_NAME_TASK_MONITOR: "wa_task_monitor"
+      WA_TASK_MONITOR_SERVICE_URL: http://{{ .Release.Name }}-wa-task-monitor
+      JOB_NAME: "INITIATION"
+      ALLOW_CONFIG_MUTATIONS: true
+
+camunda-bpm:
+  java:
+    releaseNameOverride: "{{ .Release.Name }}-camunda"
+    ingressHost: "{{ .Release.Name }}-camunda"
+    environment:
+      CAMUNDA_DB_HOST: '{{ tpl .Values.global.postgresHost $}}'
+      CAMUNDA_DB_USER_NAME: '{{ tpl .Values.global.postgresUsername $}}'
+      CAMUNDA_DB_PASSWORD: '{{ tpl .Values.global.postgresPassword $}}'
+      CAMUNDA_DB_CONN_OPTIONS: ""
+      TASK_MANAGEMENT_API_URL: http://{{ .Release.Name }}-wa-task-management-api
+      CAMUNDA_BPM_DATABASE_SCHEMAUPDATE: true
+      RELEASE_REVISION: "{{ .Release.Revision }}"
+      CAMUNDA_API_AUTH_ENABLED: false
+
 postgresql:
+  releaseNameOverride: "{{ .Release.Name }}-postgresql"
+  enabled: true
   image:
-    tag: '11.16.0'
+    registry: hmctspublic.azurecr.io
+    repository: imported/bitnami/postgresql
+    tag: '11.6.0'
   auth:
-    username: '{{ tpl .Values.global.postgresUsername $}}'
-    password: '{{ tpl .Values.global.postgresPassword $}}'
-    database: wa
-  ## Disable Postgres Persistence
+    username: hmcts
+    password: hmcts
+    postgresPassword: hmcts
   primary:
     persistence:
       enabled: false
@@ -161,7 +204,9 @@ postgresql:
     initdb:
       scripts:
         init.sql: |
+          ALTER ROLE hmcts SUPERUSER;
           CREATE DATABASE "cft_task_db" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
           CREATE DATABASE "wa-case-event-handler" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
           CREATE DATABASE "wa_workflow_api" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+          CREATE DATABASE "camunda" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
 
