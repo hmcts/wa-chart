@@ -33,3 +33,7 @@ wa-case-event-handler:
     environment:
       CCD_URL: http://ccd-data-store-api-aat.service.core-compute-aat.internal
       CCD_SEARCH_URL: http://ccd-data-store-api-aat.service.core-compute-aat.internal
+wa-task-management-api:
+  java:
+    environment:
+      CCD_URL: http://ccd-data-store-api-aat.service.core-compute-aat.internal
