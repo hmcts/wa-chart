@@ -28,3 +28,8 @@ servicebus:
       - name: ccd-case-events
         subscriptionNeeded: yes
         requiresSession: true
+wa-case-event-handler:
+  java:
+    environment:
+      CCD_URL: http://ccd-data-store-api-aat.service.core-compute-aat.internal
+      CCD_SEARCH_URL: http://ccd-data-store-api-aat.service.core-compute-aat.internal
