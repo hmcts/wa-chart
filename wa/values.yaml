@@ -108,9 +108,9 @@ wa-case-event-handler:
       ROLE_ASSIGNMENT_URL: http://{{ .Release.Name }}-am-role-assignment-service
       WA_WORKFLOW_API_URL: http://{{ .Release.Name }}-wa-workflow-api
       WA_TASK_MANAGEMENT_API_URL: http://{{ .Release.Name }}-wa-task-management-api
-      AZURE_SERVICE_BUS_TOPIC_NAME: {{ .Release.Name }}-ccd-case-events
-      AZURE_SERVICE_BUS_SUBSCRIPTION_NAME: {{ .Release.Name }}-ccd-case-events
-      AZURE_SERVICE_BUS_CCD_CASE_EVENTS_SUBSCRIPTION_NAME: {{ .Release.Name }}-ccd-case-events
+      AZURE_SERVICE_BUS_TOPIC_NAME: "{{ .Release.Name }}-ccd-case-events"
+      AZURE_SERVICE_BUS_SUBSCRIPTION_NAME: "{{ .Release.Name }}-ccd-case-events"
+      AZURE_SERVICE_BUS_CCD_CASE_EVENTS_SUBSCRIPTION_NAME: "{{ .Release.Name }}-ccd-case-events"
       POSTGRES_NAME: wa-case-event-handler
       POSTGRES_HOST: '{{ tpl .Values.global.postgresHost $}}'
       POSTGRES_USERNAME: '{{ tpl .Values.global.postgresUsername $}}'
