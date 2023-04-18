@@ -32,7 +32,7 @@ dependencies:
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
     condition: wa.messageCron.enabled
   - name: camunda-bpm
-    version: 0.0.28
+    version: 0.0.29
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
     condition: wa.camunda.enabled
   - name: postgresql
