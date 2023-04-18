@@ -173,7 +173,6 @@ wa-task-batch-service:
 camunda-bpm:
   java:
     releaseNameOverride: "{{ .Release.Name }}-camunda"
-    ingressHost: "{{ .Release.Name }}-camunda"
     disableKeyVaults: true
     environment:
       CAMUNDA_DB_HOST: '{{ tpl .Values.global.postgresHost $}}'
