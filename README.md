@@ -31,15 +31,6 @@ servicebus:
 
 wa:
   enabled: true
-  wa-task-management-api:
-    java:
-      environment:
-        CCD_URL: http://{{ .Release.Name }}-ccd-data-store-api
-  wa-task-monitor:
-    java:
-      environment:
-        CCD_URL: http://{{ .Release.Name }}-ccd-data-store-api
-        ROLE_ASSIGNMENT_URL: http://{{ .Release.Name }}-am-role-assignment-service
   wa-case-event-handler:
     java:
       secrets:
