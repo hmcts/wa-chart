@@ -158,7 +158,7 @@ wa-message-cron-service:
 
 wa-initiation-batch:
   job:
-    releaseNameOverride: "{{ .Release.Name }}-wa-task-batch-service"
+    releaseNameOverride: "{{ .Release.Name }}-wa-task-batch-initiation"
     kind: CronJob
     schedule: "*/5 * * * *"
     aadIdentityName: wa
@@ -175,7 +175,7 @@ wa-initiation-batch:
 
 wa-reconfiguration-batch:
   job:
-    releaseNameOverride: "{{ .Release.Name }}-wa-task-batch-service"
+    releaseNameOverride: "{{ .Release.Name }}-wa-task-batch-reconfiguration"
     kind: CronJob
     schedule: "*/5 * * * *"
     aadIdentityName: wa
@@ -192,7 +192,7 @@ wa-reconfiguration-batch:
 
 wa-termination-batch:
   job:
-    releaseNameOverride: "{{ .Release.Name }}-wa-task-batch-service"
+    releaseNameOverride: "{{ .Release.Name }}-wa-task-batch-termination"
     kind: CronJob
     schedule: "*/5 * * * *"
     aadIdentityName: wa
