@@ -21,7 +21,10 @@ wa:
     enabled: true
   servicebus:
     enabled: false
-
+  reconfigurationBatchCron:
+    enabled: true
+  terminationBatchCron:
+    enabled: true
 global:
   postgresHost: "{{ .Release.Name }}-postgresql"
   postgresUsername: hmcts
@@ -153,7 +156,7 @@ wa-message-cron-service:
     environment:
       WA_CASE_EVENT_HANDLER_SERVICE_URL: http://{{ .Release.Name }}-wa-case-event-handler
 
-wa-task-batch-service:
+wa-initiation-batch:
   job:
     releaseNameOverride: "{{ .Release.Name }}-wa-task-batch-service"
     kind: CronJob
@@ -168,6 +171,40 @@ wa-task-batch-service:
       S2S_MICROSERVICE_NAME_TASK_MONITOR: "wa_task_monitor"
       WA_TASK_MONITOR_SERVICE_URL: http://{{ .Release.Name }}-wa-task-monitor
       JOB_NAME: "INITIATION"
+      ALLOW_CONFIG_MUTATIONS: true
+
+wa-reconfiguration-batch:
+  job:
+    releaseNameOverride: "{{ .Release.Name }}-wa-task-batch-service"
+    kind: CronJob
+    schedule: "*/5 * * * *"
+    aadIdentityName: wa
+    keyVaults:
+      wa:
+        secrets:
+          - s2s-secret-task-monitor
+    environment:
+      S2S_URL: "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
+      S2S_MICROSERVICE_NAME_TASK_MONITOR: "wa_task_monitor"
+      WA_TASK_MONITOR_SERVICE_URL: http://{{ .Release.Name }}-wa-task-monitor
+      JOB_NAME: "RECONFIGURATION"
+      ALLOW_CONFIG_MUTATIONS: true
+
+wa-termination-batch:
+  job:
+    releaseNameOverride: "{{ .Release.Name }}-wa-task-batch-service"
+    kind: CronJob
+    schedule: "*/5 * * * *"
+    aadIdentityName: wa
+    keyVaults:
+      wa:
+        secrets:
+          - s2s-secret-task-monitor
+    environment:
+      S2S_URL: "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
+      S2S_MICROSERVICE_NAME_TASK_MONITOR: "wa_task_monitor"
+      WA_TASK_MONITOR_SERVICE_URL: http://{{ .Release.Name }}-wa-task-monitor
+      JOB_NAME: "TERMINATION"
       ALLOW_CONFIG_MUTATIONS: true
 
 camunda-bpm:
