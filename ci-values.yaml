@@ -22,7 +22,7 @@ servicebus:
     environment: "development"
   enabled: true
   resourceGroup: chart-tests-aso-preview-rg
-  sbNamespace: chart-tests
+  sbNamespace: chart-tests-servicebus
   setup:
     topics:
       - name: ccd-case-events
