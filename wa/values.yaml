@@ -38,8 +38,6 @@ wa-task-management-api:
     keyVaults:
       wa:
         secrets:
-          - name: app-insights-connection-string
-            alias: app-insights-connection-string
           - name: wa-system-username
             alias: WA_SYSTEM_USERNAME
           - name: wa-system-password
@@ -67,8 +65,6 @@ wa-task-monitor:
     keyVaults:
       wa:
         secrets:
-          - name: app-insights-connection-string
-            alias: app-insights-connection-string
           - name: s2s-secret-task-monitor
             alias: S2S_SECRET_TASK_MONITOR
           - name: wa-system-username
@@ -126,8 +122,6 @@ wa-workflow-api:
     keyVaults:
       wa:
         secrets:
-          - name: app-insights-connection-string
-            alias: app-insights-connection-string
           - name: s2s-secret-workflow-api
             alias: S2S_SECRET_WORKFLOW_API
           - name: ld-secret
