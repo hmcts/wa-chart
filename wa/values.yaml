@@ -167,7 +167,7 @@ wa-initiation-batch:
 
 wa-reconfiguration-batch:
   job:
-    releaseNameOverride: "{{ .Release.Name }}-wa-task-batch-reconfiguration"
+    releaseNameOverride: "{{ .Release.Name }}-wa-task-batch-reconfig"
     kind: CronJob
     schedule: "*/5 * * * *"
     aadIdentityName: wa
