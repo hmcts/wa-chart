@@ -26,8 +26,8 @@ wa:
   terminationBatchCron:
     enabled: true
 global:
-  postgresHost: "{{ .Release.Name }}-postgresql"
   postgresUsername: hmcts
+  postgresHost: ""
   postgresSecret: ""
   environment: aat
 
