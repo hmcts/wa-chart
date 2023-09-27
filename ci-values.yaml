@@ -8,7 +8,8 @@ livenessDelay: 90
 
 global:
   tenantId: "531ff96d-0ae9-462a-8d2d-bec7c0b42082"
-
+  postgresHostname: "chart-tests-flexibleserver-postgres-preview.postgres.database.azure.com"
+  postgresSecret: chart-test-postgres-password
 wa:
   servicebus:
     enabled: true
@@ -42,3 +43,13 @@ wa-task-monitor:
     environment:
       CCD_URL: http://ccd-data-store-api-aat.service.core-compute-aat.internal
       CCD_SEARCH_URL: http://ccd-data-store-api-aat.service.core-compute-aat.internal
+
+postgresql:
+  enabled: true
+  flexibleserver: chart-tests-flexibleserver-postgres-preview
+  setup:
+    databases:
+      - name: cft-task-db
+      - name: wa-case-event-handler
+      - name: wa-workflow-api
+      - name: camunda

@@ -28,7 +28,7 @@ wa:
 global:
   postgresHost: "{{ .Release.Name }}-postgresql"
   postgresUsername: hmcts
-  postgresPassword: hmcts
+  postgresSecret: ""
   environment: aat
 
 wa-task-management-api:
@@ -53,12 +53,16 @@ wa-task-management-api:
     environment:
       CAMUNDA_URL: http://{{ .Release.Name }}-camunda/engine-rest
       ROLE_ASSIGNMENT_URL: http://{{ .Release.Name }}-am-role-assignment-service
-      POSTGRES_NAME: cft_task_db
+      POSTGRES_NAME: cft-task-db
       POSTGRES_HOST: '{{ tpl .Values.global.postgresHost $}}'
-      POSTGRES_USERNAME: postgres
-      POSTGRES_PASSWORD: '{{ tpl .Values.global.postgresPassword $}}'
-      POSTGRES_CONNECTION_OPTIONS: ""
+      POSTGRES_USERNAME: '{{ tpl .Values.global.postgresUsername $}}'
+      POSTGRES_CONNECTION_OPTIONS: "?stringtype=unspecified&reWriteBatchedInserts=true&sslmode=require"
       CCD_URL: http://{{ .Release.Name }}-ccd-data-store-api
+    secrets:
+      POSTGRES_PASSWORD:
+        secretRef: "{{ .Values.global.postgresSecret }}"
+        key: PASSWORD
+        disabled: false
 
 wa-task-monitor:
   java:
@@ -93,6 +97,10 @@ wa-case-event-handler:
       AZURE_SERVICE_BUS_CONNECTION_STRING:
         secretRef: servicebus-access
         key: connectionString
+      POSTGRES_PASSWORD:
+        secretRef: "{{ .Values.global.postgresSecret }}"
+        key: PASSWORD
+        disabled: false
     keyVaults:
       wa:
         secrets:
@@ -117,14 +125,18 @@ wa-case-event-handler:
       POSTGRES_NAME: wa-case-event-handler
       POSTGRES_HOST: '{{ tpl .Values.global.postgresHost $}}'
       POSTGRES_USERNAME: '{{ tpl .Values.global.postgresUsername $}}'
-      POSTGRES_PASSWORD: '{{ tpl .Values.global.postgresPassword $}}'
-      POSTGRES_CONNECTION_OPTIONS: ""
+      POSTGRES_CONNECTION_OPTIONS: "?stringtype=unspecified&reWriteBatchedInserts=true&sslmode=require"
       RECEIVED_MESSAGE_HEALTH_CHECK: disabled
 
 wa-workflow-api:
   java:
     ingressHost: ""
     releaseNameOverride: "{{ .Release.Name }}-wa-workflow-api"
+    secrets:
+      POSTGRES_PASSWORD:
+        secretRef: "{{ .Values.global.postgresSecret }}"
+        key: PASSWORD
+        disabled: false
     keyVaults:
       wa:
         secrets:
@@ -136,11 +148,10 @@ wa-workflow-api:
             alias: LAUNCH_DARKLY_SDK_KEY
     environment:
       CAMUNDA_URL: http://{{ .Release.Name }}-camunda/engine-rest
-      POSTGRES_NAME: wa_workflow_api
+      POSTGRES_NAME: wa-workflow-api
       POSTGRES_HOST: '{{ tpl .Values.global.postgresHost $}}'
       POSTGRES_USERNAME: '{{ tpl .Values.global.postgresUsername $}}'
-      POSTGRES_PASSWORD: '{{ tpl .Values.global.postgresPassword $}}'
-      POSTGRES_CONNECTION_OPTIONS: ""
+      POSTGRES_CONNECTION_OPTIONS: "?stringtype=unspecified&reWriteBatchedInserts=true&sslmode=require"
       TASK_MANAGEMENT_URL: http://{{ .Release.Name }}-wa-task-management-api
 
 wa-message-cron-service:
@@ -215,37 +226,13 @@ camunda-bpm:
     environment:
       CAMUNDA_DB_HOST: '{{ tpl .Values.global.postgresHost $}}'
       CAMUNDA_DB_USER_NAME: '{{ tpl .Values.global.postgresUsername $}}'
-      CAMUNDA_DB_PASSWORD: '{{ tpl .Values.global.postgresPassword $}}'
       CAMUNDA_DB_CONN_OPTIONS: ""
       TASK_MANAGEMENT_API_URL: http://{{ .Release.Name }}-wa-task-management-api
       CAMUNDA_BPM_DATABASE_SCHEMAUPDATE: true
       RELEASE_REVISION: "{{ .Release.Revision }}"
       CAMUNDA_API_AUTH_ENABLED: false
-
-postgresql:
-  releaseNameOverride: "{{ .Release.Name }}-postgresql"
-  enabled: true
-  ingressHost: "postgres-{{ .Release.Name }}.preview.platform.hmcts.net"
-  image:
-    registry: hmctspublic.azurecr.io
-    repository: imported/bitnami/postgresql
-    tag: '11.6.0'
-  auth:
-    username: hmcts
-    password: hmcts
-    postgresPassword: hmcts
-  primary:
-    persistence:
-      enabled: false
-    resources:
-      requests:
-        cpu: 25m
-    initdb:
-      scripts:
-        init.sql: |
-          ALTER ROLE hmcts SUPERUSER;
-          CREATE DATABASE "cft_task_db" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
-          CREATE DATABASE "wa-case-event-handler" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
-          CREATE DATABASE "wa_workflow_api" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
-          CREATE DATABASE "camunda" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
-
+    secrets:
+      POSTGRES_PASSWORD:
+        secretRef: "{{ .Values.global.postgresSecret }}"
+        key: PASSWORD
+        disabled: false
