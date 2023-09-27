@@ -8,7 +8,7 @@ livenessDelay: 90
 
 global:
   tenantId: "531ff96d-0ae9-462a-8d2d-bec7c0b42082"
-  postgresHostname: "chart-tests-flexibleserver-postgres-preview.postgres.database.azure.com"
+  postgresHost: "chart-tests-flexibleserver-postgres-preview.postgres.database.azure.com"
   postgresSecret: chart-test-postgres-password
 wa:
   servicebus:
