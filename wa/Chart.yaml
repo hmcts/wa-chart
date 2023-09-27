@@ -47,8 +47,8 @@ dependencies:
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
     condition: wa.camunda.enabled
   - name: postgresql
-    version: 11.9.13
-    repository: https://charts.bitnami.com/bitnami
+    version: 0.0.5
+    repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
     condition: wa.postgresql.enabled
   - name: servicebus
     version: 1.0.2

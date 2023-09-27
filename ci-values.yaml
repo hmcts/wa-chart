@@ -13,6 +13,8 @@ global:
 wa:
   servicebus:
     enabled: true
+  postgresql:
+    enabled: true
 
 servicebus:
   tags:
@@ -45,7 +47,6 @@ wa-task-monitor:
       CCD_SEARCH_URL: http://ccd-data-store-api-aat.service.core-compute-aat.internal
 
 postgresql:
-  enabled: true
   flexibleserver: chart-tests-flexibleserver-postgres-preview
   setup:
     databases:
