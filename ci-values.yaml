@@ -50,7 +50,7 @@ postgresql:
   flexibleserver: chart-tests-flexibleserver-postgres-preview
   setup:
     databases:
-      - name: cft-task-db
+      - name: cft_task_db
       - name: wa-case-event-handler
       - name: wa-workflow-api
       - name: camunda
