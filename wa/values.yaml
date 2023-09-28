@@ -148,7 +148,7 @@ wa-workflow-api:
             alias: LAUNCH_DARKLY_SDK_KEY
     environment:
       CAMUNDA_URL: http://{{ .Release.Name }}-camunda/engine-rest
-      POSTGRES_NAME: wa-workflow-api
+      POSTGRES_NAME: wa_workflow_api
       POSTGRES_HOST: '{{ tpl .Values.global.postgresHost $}}'
       POSTGRES_USERNAME: '{{ tpl .Values.global.postgresUsername $}}'
       POSTGRES_CONNECTION_OPTIONS: "?stringtype=unspecified&reWriteBatchedInserts=true&sslmode=require"

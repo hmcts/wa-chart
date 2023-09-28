@@ -52,5 +52,5 @@ postgresql:
     databases:
       - name: cft_task_db
       - name: wa-case-event-handler
-      - name: wa-workflow-api
+      - name: wa_workflow_api
       - name: camunda
