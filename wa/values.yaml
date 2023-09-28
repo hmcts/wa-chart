@@ -56,7 +56,7 @@ wa-task-management-api:
       POSTGRES_NAME: cft-task-db
       POSTGRES_HOST: '{{ tpl .Values.global.postgresHost $}}'
       POSTGRES_USERNAME: postgres
-      POSTGRES_CONNECTION_OPTIONS: "?currentSchema=cft_task_db&reWriteBatchedInserts=true&sslmode=require"
+      POSTGRES_CONNECTION_OPTIONS: "?stringtype=unspecified&reWriteBatchedInserts=true&sslmode=require"
       CCD_URL: http://{{ .Release.Name }}-ccd-data-store-api
     secrets:
       POSTGRES_PASSWORD:
