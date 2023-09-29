@@ -1,7 +1,7 @@
 tags:
   wa: true
 
-#subcharts conditions
+#subcharts conditions for required features
 wa:
   taskManagement:
     enabled: true
