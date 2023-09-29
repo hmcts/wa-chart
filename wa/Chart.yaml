@@ -43,12 +43,12 @@ dependencies:
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
     condition: wa.messageCron.enabled
   - name: camunda-bpm
-    version: 0.0.29
+    version: 0.0.41
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
     condition: wa.camunda.enabled
   - name: postgresql
-    version: 11.9.13
-    repository: https://charts.bitnami.com/bitnami
+    version: 1.0.0
+    repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
     condition: wa.postgresql.enabled
   - name: servicebus
     version: 1.0.4
