@@ -53,7 +53,7 @@ wa-task-management-api:
     environment:
       CAMUNDA_URL: http://{{ .Release.Name }}-camunda/engine-rest
       ROLE_ASSIGNMENT_URL: http://{{ .Release.Name }}-am-role-assignment-service
-      POSTGRES_NAME: '{{ tpl .Values.global.databaseNamePrefix $}}cft_task_db'
+      POSTGRES_NAME: 'cft_task_db'
       POSTGRES_HOST: '{{ tpl .Values.global.postgresHost $}}'
       POSTGRES_USERNAME: '{{ tpl .Values.global.postgresUsername $}}'
       POSTGRES_CONNECTION_OPTIONS: "?stringtype=unspecified&reWriteBatchedInserts=true&sslmode=require"
