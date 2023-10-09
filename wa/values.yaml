@@ -25,6 +25,7 @@ wa:
     enabled: true
   terminationBatchCron:
     enabled: true
+
 global:
   postgresUsername: hmcts
   postgresHost: ""
