@@ -25,11 +25,13 @@ wa:
     enabled: true
   terminationBatchCron:
     enabled: true
+
 global:
   postgresUsername: hmcts
   postgresHost: ""
   postgresSecret: ""
   environment: aat
+  databaseNamePrefix: ""
 
 wa-task-management-api:
   java:
@@ -51,11 +53,14 @@ wa-task-management-api:
     environment:
       CAMUNDA_URL: http://{{ .Release.Name }}-camunda/engine-rest
       ROLE_ASSIGNMENT_URL: http://{{ .Release.Name }}-am-role-assignment-service
-      POSTGRES_NAME: cft_task_db
+      POSTGRES_NAME: '{{ tpl .Values.global.databaseNamePrefix $}}cft_task_db'
       POSTGRES_HOST: '{{ tpl .Values.global.postgresHost $}}'
       POSTGRES_USERNAME: '{{ tpl .Values.global.postgresUsername $}}'
-      POSTGRES_CONNECTION_OPTIONS: "?stringtype=unspecified&reWriteBatchedInserts=true&sslmode=require"
+      POSTGRES_CONNECTION_OPTIONS: "?currentSchema=cft_task_db&stringtype=unspecified&reWriteBatchedInserts=true&sslmode=require"
       CCD_URL: http://{{ .Release.Name }}-ccd-data-store-api
+      SPRING_JPA_DEFAULT_SCHEMA: cft_task_db
+      SPRING_FLYWAY_DEFAULT_SCHEMA: cft_task_db
+      SPRING_FLYWAY_SCHEMAS: cft_task_db
     secrets:
       POSTGRES_PASSWORD:
         secretRef: "{{ .Values.global.postgresSecret }}"
@@ -116,7 +121,7 @@ wa-case-event-handler:
       AZURE_SERVICE_BUS_TOPIC_NAME: "{{ .Release.Name }}-servicebus-ccd-case-events"
       AZURE_SERVICE_BUS_SUBSCRIPTION_NAME: "{{ .Release.Name }}-servicebus-ccd-case-events"
       AZURE_SERVICE_BUS_CCD_CASE_EVENTS_SUBSCRIPTION_NAME: "{{ .Release.Name }}-servicebus-ccd-case-events"
-      POSTGRES_NAME: wa-case-event-handler
+      POSTGRES_NAME: '{{ tpl .Values.global.databaseNamePrefix $}}wa-case-event-handler'
       POSTGRES_HOST: '{{ tpl .Values.global.postgresHost $}}'
       POSTGRES_USERNAME: '{{ tpl .Values.global.postgresUsername $}}'
       POSTGRES_CONNECTION_OPTIONS: "?stringtype=unspecified&reWriteBatchedInserts=true&sslmode=require"
@@ -140,7 +145,7 @@ wa-workflow-api:
             alias: LAUNCH_DARKLY_SDK_KEY
     environment:
       CAMUNDA_URL: http://{{ .Release.Name }}-camunda/engine-rest
-      POSTGRES_NAME: wa_workflow_api
+      POSTGRES_NAME: '{{ tpl .Values.global.databaseNamePrefix $}}wa_workflow_api'
       POSTGRES_HOST: '{{ tpl .Values.global.postgresHost $}}'
       POSTGRES_USERNAME: '{{ tpl .Values.global.postgresUsername $}}'
       POSTGRES_CONNECTION_OPTIONS: "?stringtype=unspecified&reWriteBatchedInserts=true&sslmode=require"
@@ -218,7 +223,8 @@ camunda-bpm:
     environment:
       CAMUNDA_DB_HOST: '{{ tpl .Values.global.postgresHost $}}'
       CAMUNDA_DB_USER_NAME: '{{ tpl .Values.global.postgresUsername $}}'
-      CAMUNDA_DB_CONN_OPTIONS: ""
+      CAMUNDA_DB_CONN_OPTIONS: "?stringtype=unspecified&reWriteBatchedInserts=true&sslmode=require"
+      CAMUNDA_DB_NAME: '{{ tpl .Values.global.databaseNamePrefix $}}camunda'
       TASK_MANAGEMENT_API_URL: http://{{ .Release.Name }}-wa-task-management-api
       CAMUNDA_BPM_DATABASE_SCHEMAUPDATE: true
       RELEASE_REVISION: "{{ .Release.Revision }}"
