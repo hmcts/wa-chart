@@ -89,6 +89,7 @@ wa-task-monitor:
       CCD_SEARCH_URL: http://{{ .Release.Name }}-ccd-data-store-api
       CCD_URL: http://{{ .Release.Name }}-ccd-data-store-api
       ROLE_ASSIGNMENT_URL: http://{{ .Release.Name }}-am-role-assignment-service
+      WA_TASK_MANAGEMENT_API_URL: http://{{ .Release.Name }}-wa-task-management-api
 
 wa-case-event-handler:
   java:
