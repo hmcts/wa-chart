@@ -151,6 +151,8 @@ wa-workflow-api:
       POSTGRES_USERNAME: '{{ tpl .Values.global.postgresUsername $}}'
       POSTGRES_CONNECTION_OPTIONS: "?stringtype=unspecified&reWriteBatchedInserts=true&sslmode=require"
       TASK_MANAGEMENT_URL: http://{{ .Release.Name }}-wa-task-management-api
+      SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA: wa_workflow_api
+      SPRING_FLYWAY_SCHEMAS: wa_workflow_api
 
 wa-message-cron-service:
   job:
