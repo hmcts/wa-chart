@@ -234,6 +234,6 @@ camunda-bpm:
       CAMUNDA_API_AUTH_ENABLED: false
     secrets:
       CAMUNDA_DB_PASSWORD:
-        secretRef: "{{ .Values.global.postgresSecret }}"
+        secretRef: camunda_password_secret
         key: PASSWORD
         disabled: false
