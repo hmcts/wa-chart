@@ -53,7 +53,7 @@ wa-task-monitor:
 wa-workflow-api:
   java:
     environment:
-      DB_READER_USERNAME: "postgres"
+      DB_READER_USERNAME: "DTS CFT DB Access Reader"
 
 postgresql:
   flexibleserver: chart-tests-flexibleserver-postgres-preview
