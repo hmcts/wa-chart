@@ -50,6 +50,11 @@ wa-task-monitor:
       CCD_URL: http://ccd-data-store-api-aat.service.core-compute-aat.internal
       CCD_SEARCH_URL: http://ccd-data-store-api-aat.service.core-compute-aat.internal
 
+wa-workflow-api:
+  java:
+    environment:
+      DB_READER_USERNAME: "hmcts"
+
 postgresql:
   flexibleserver: chart-tests-flexibleserver-postgres-preview
   setup:
