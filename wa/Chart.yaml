@@ -8,38 +8,38 @@ keywords:
   - work allocation
 dependencies:
   - name: wa-task-management-api
-    version: ~0.0.37
+    version: ~0.1.0
     repository: 'oci://hmctspublic.azurecr.io/helm'
     condition: wa.taskManagement.enabled
   - name: wa-task-monitor
-    version: ~0.0.27
+    version: ~0.1.0
     repository: 'oci://hmctspublic.azurecr.io/helm'
     condition: wa.taskMonitor.enabled
   - name: wa-case-event-handler
-    version: ~0.0.30
+    version: ~0.1.0
     repository: 'oci://hmctspublic.azurecr.io/helm'
     condition: wa.eventHandler.enabled
   - name: wa-workflow-api
-    version: ~0.0.26
+    version: ~0.1.1
     repository: 'oci://hmctspublic.azurecr.io/helm'
     condition: wa.workflow.enabled
   - name: wa-task-batch-service
-    version: ~0.0.16
+    version: ~0.1.0
     repository: 'oci://hmctspublic.azurecr.io/helm'
     alias: wa-initiation-batch
     condition: wa.taskBatchCron.enabled
   - name: wa-task-batch-service
-    version: ~0.0.16
+    version: ~0.1.0
     repository: 'oci://hmctspublic.azurecr.io/helm'
     alias: wa-reconfiguration-batch
     condition: wa.reconfigurationBatchCron.enabled
   - name: wa-task-batch-service
-    version: ~0.0.16
+    version: ~0.1.0
     repository: 'oci://hmctspublic.azurecr.io/helm'
     alias: wa-termination-batch
     condition: wa.terminationBatchCron.enabled
   - name: wa-message-cron-service
-    version: ~0.0.4
+    version: ~0.0.15
     repository: 'oci://hmctspublic.azurecr.io/helm'
     condition: wa.messageCron.enabled
   - name: camunda-bpm
@@ -47,10 +47,10 @@ dependencies:
     repository: 'oci://hmctspublic.azurecr.io/helm'
     condition: wa.camunda.enabled
   - name: postgresql
-    version: 1.0.2
+    version: 1.1.0
     repository: 'oci://hmctspublic.azurecr.io/helm'
     condition: wa.postgresql.enabled
   - name: servicebus
-    version: 1.0.7
+    version: 2.2.2
     repository: 'oci://hmctspublic.azurecr.io/helm'
     condition: wa.servicebus.enabled
