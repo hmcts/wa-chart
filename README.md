@@ -1,8 +1,10 @@
-# chart-ccd
+# wa-chart
 
-Product chart for Work Allocation.
+Product chart for Task Management.
 
-The Work Allocation services require the CCD services and Azure Service Bus to work. This chart is intended to be used in conjunction with the [ccd chart](https://www.github.com/hmcts/chart-ccd) and teams are expected to have completed the necessary steps to set up an Azure Service Bus in Preview.
+Last review: 22/04/2025.
+
+The Work Allocation services require the CCD services and Azure Service Bus to work. This chart is intended to be used in conjunction with the [ccd chart](https://www.github.com/hmcts/chart-ccd) and teams are expected to have completed the necessary steps to set up an Azure Service Bus in Preview. 
 
 ## Usage
 
@@ -11,8 +13,8 @@ Add the dependency in Chart.yml
 ```yaml
 dependencies:
   - name: wa-chart
-    version: 0.1.4 # See latest release in releases tab
-    repository: https://hmctspublic.azurecr.io/helm/v1/repo/
+    version: 1.1.0 # See latest release in releases tab
+    repository: 'oci://hmctspublic.azurecr.io/helm'
 ```
 
 Configure the services in values.preview.yaml
@@ -63,7 +65,7 @@ ccd-message-publisher:
       CCD_CASE_EVENTS_DESTINATION: ${SERVICE_NAME}-asb-ccd-case-events
     secrets:
       SERVICE_BUS_CONNECTION_STRING:
-        secretRef: [YOUR SERVICE BUS SECRET
+        secretRef: [YOUR SERVICE BUS SECRET]
         key: connectionString
 ```
 
