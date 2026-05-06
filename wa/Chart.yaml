@@ -43,14 +43,10 @@ dependencies:
     repository: 'oci://hmctsprod.azurecr.io/helm'
     condition: wa.messageCron.enabled
   - name: camunda-bpm
-    version: 0.0.48
+    version: ~0.0.48
     repository: 'oci://hmctsprod.azurecr.io/helm'
     condition: wa.camunda.enabled
   - name: postgresql
-    version: 1.1.0
-    repository: 'oci://hmctsprod.azurecr.io/helm'
-    condition: wa.postgresql.enabled
-  - name: servicebus
-    version: 1.2.1
+    version: ~1.2.1
     repository: 'oci://hmctsprod.azurecr.io/helm'
     condition: wa.servicebus.enabled
