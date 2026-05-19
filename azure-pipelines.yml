@@ -25,6 +25,8 @@ jobs:
       chartName: wa
       chartReleaseName: wa-chart-ci-test
       chartNamespace: chart-tests
+      aksCluster: cft-preview-00-aks
+      aksResourceGroup: cft-preview-00-rg
       helmInstallTimeout: "1000"
 
 
