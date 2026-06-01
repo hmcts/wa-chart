@@ -14,7 +14,7 @@ Add the dependency in Chart.yml
 dependencies:
   - name: wa-chart
     version: 1.1.0 # See latest release in releases tab
-    repository: 'oci://hmctspublic.azurecr.io/helm'
+    repository: 'oci://hmctsprod.azurecr.io/helm'
 ```
 
 Configure the services in values.preview.yaml

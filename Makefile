@@ -3,10 +3,10 @@ CHART := wa
 RELEASE := chart-${CHART}-release
 NAMESPACE := chart-tests
 TEST := ${RELEASE}-test-service
-ACR := hmctspublic
+ACR := hmctsprod
 AKS_RESOURCE_GROUP := cft-preview-00-rg
 AKS_CLUSTER := cft-preview-00-aks
-HELM_REPO := hmctspublic
+HELM_REPO := hmctsprod
 ACR_SUBSCRIPTION := DCD-CFTAPPS-DEV
 
 setup:
