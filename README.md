@@ -1,6 +1,6 @@
 # wa-chart
 
-Product chart for Task Management.
+Product chart for Task Management. 
 
 Last review: 22/04/2025.
 
