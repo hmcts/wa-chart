@@ -24,17 +24,17 @@ dependencies:
     repository: 'oci://hmctsprod.azurecr.io/helm'
     condition: wa.workflow.enabled
   - name: wa-task-batch-service
-    version: ~0.1.3
+    version: 0.1.2
     repository: 'oci://hmctsprod.azurecr.io/helm'
     alias: wa-initiation-batch
     condition: wa.taskBatchCron.enabled
   - name: wa-task-batch-service
-    version: ~0.1.3
+    version: 0.1.2
     repository: 'oci://hmctsprod.azurecr.io/helm'
     alias: wa-reconfiguration-batch
     condition: wa.reconfigurationBatchCron.enabled
   - name: wa-task-batch-service
-    version: ~0.1.3
+    version: 0.1.2
     repository: 'oci://hmctsprod.azurecr.io/helm'
     alias: wa-termination-batch
     condition: wa.terminationBatchCron.enabled
