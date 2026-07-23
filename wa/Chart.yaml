@@ -39,7 +39,7 @@ dependencies:
     alias: wa-termination-batch
     condition: wa.terminationBatchCron.enabled
   - name: wa-message-cron-service
-    version: ~0.1.3
+    version: ~0.0.15
     repository: 'oci://hmctsprod.azurecr.io/helm'
     condition: wa.messageCron.enabled
   - name: camunda-bpm
