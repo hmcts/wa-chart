@@ -183,6 +183,7 @@ wa-initiation-batch:
       WA_TASK_MONITOR_SERVICE_URL: http://{{ .Release.Name }}-wa-task-monitor
       JOB_NAME: "INITIATION"
       ALLOW_CONFIG_MUTATIONS: true
+      activeCronCluster: true
 
 wa-reconfiguration-batch:
   job:
@@ -200,6 +201,7 @@ wa-reconfiguration-batch:
       WA_TASK_MONITOR_SERVICE_URL: http://{{ .Release.Name }}-wa-task-monitor
       JOB_NAME: "RECONFIGURATION"
       ALLOW_CONFIG_MUTATIONS: true
+      activeCronCluster: true
 
 wa-termination-batch:
   job:
@@ -217,6 +219,7 @@ wa-termination-batch:
       WA_TASK_MONITOR_SERVICE_URL: http://{{ .Release.Name }}-wa-task-monitor
       JOB_NAME: "TERMINATION"
       ALLOW_CONFIG_MUTATIONS: true
+      activeCronCluster: true
 
 camunda-bpm:
   java:
