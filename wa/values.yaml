@@ -171,6 +171,8 @@ wa-message-cron-service:
       WA_CASE_EVENT_HANDLER_SERVICE_URL: http://{{ .Release.Name }}-wa-case-event-handler
 
 wa-initiation-batch:
+  global:
+    activeCronCluster: true
   job:
     releaseNameOverride: "{{ .Release.Name }}-wa-task-batch-initiation"
     kind: CronJob
@@ -186,9 +188,10 @@ wa-initiation-batch:
       WA_TASK_MONITOR_SERVICE_URL: http://{{ .Release.Name }}-wa-task-monitor
       JOB_NAME: "INITIATION"
       ALLOW_CONFIG_MUTATIONS: true
-      activeCronCluster: true
 
 wa-reconfiguration-batch:
+  global:
+    activeCronCluster: true
   job:
     releaseNameOverride: "{{ .Release.Name }}-wa-task-batch-reconfig"
     kind: CronJob
@@ -204,9 +207,10 @@ wa-reconfiguration-batch:
       WA_TASK_MONITOR_SERVICE_URL: http://{{ .Release.Name }}-wa-task-monitor
       JOB_NAME: "RECONFIGURATION"
       ALLOW_CONFIG_MUTATIONS: true
-      activeCronCluster: true
 
 wa-termination-batch:
+  global:
+    activeCronCluster: true
   job:
     releaseNameOverride: "{{ .Release.Name }}-wa-task-batch-termination"
     kind: CronJob
@@ -222,7 +226,6 @@ wa-termination-batch:
       WA_TASK_MONITOR_SERVICE_URL: http://{{ .Release.Name }}-wa-task-monitor
       JOB_NAME: "TERMINATION"
       ALLOW_CONFIG_MUTATIONS: true
-      activeCronCluster: true
 
 camunda-bpm:
   java:
