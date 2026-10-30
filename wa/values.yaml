@@ -93,6 +93,7 @@ wa-task-monitor:
       CCD_URL: http://{{ .Release.Name }}-ccd-data-store-api
       ROLE_ASSIGNMENT_URL: http://{{ .Release.Name }}-am-role-assignment-service
       WA_TASK_MANAGEMENT_API_URL: http://{{ .Release.Name }}-wa-task-management-api
+      WA_INITIATE_TASKS_ON_CREATE_ENABLED: true
 
 wa-case-event-handler:
   java:
@@ -241,6 +242,7 @@ camunda-bpm:
       CAMUNDA_BPM_DATABASE_SCHEMAUPDATE: true
       RELEASE_REVISION: "{{ .Release.Revision }}"
       CAMUNDA_API_AUTH_ENABLED: false
+      WA_INITIATE_TASKS_ON_CREATE_ENABLED: true
     secrets:
       CAMUNDA_DB_PASSWORD:
         secretRef: "{{ .Values.global.postgresSecret }}"
