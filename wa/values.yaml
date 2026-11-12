@@ -190,6 +190,26 @@ wa-initiation-batch:
       JOB_NAME: "INITIATION"
       ALLOW_CONFIG_MUTATIONS: true
 
+wa-initiation-failures-batch:
+  enabled: ${ENABLE_WA}
+  global:
+    activeCronCluster: true
+  job:
+    kind: CronJob
+    schedule: "*/1 * * * *"
+    releaseNameOverride: "{{ .Release.Name }}-wa-initiation-failures"
+    aadIdentityName: wa
+    keyVaults:
+      wa:
+        secrets:
+          - s2s-secret-task-monitor
+  environment:
+    S2S_URL: "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
+    S2S_MICROSERVICE_NAME_TASK_MONITOR: "wa_task_monitor"
+    WA_TASK_MONITOR_SERVICE_URL: http://{{ .Release.Name }}-wa-task-monitor
+    JOB_NAME: "TASK_INITIATION_FAILURES"
+    ALLOW_CONFIG_MUTATIONS: true
+
 wa-reconfiguration-batch:
   global:
     activeCronCluster: true
@@ -243,6 +263,7 @@ camunda-bpm:
       RELEASE_REVISION: "{{ .Release.Revision }}"
       CAMUNDA_API_AUTH_ENABLED: false
       WA_INITIATE_TASKS_ON_CREATE_ENABLED: true
+      S2S_SECRET_CAMUNDA_BPM: ${S2S_SECRET_CAMUNDA_BPM}
     secrets:
       CAMUNDA_DB_PASSWORD:
         secretRef: "{{ .Values.global.postgresSecret }}"
