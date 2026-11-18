@@ -7,7 +7,7 @@ ACR := hmctsprod
 AKS_RESOURCE_GROUP := cft-preview-00-rg
 AKS_CLUSTER := cft-preview-00-aks
 HELM_REPO := hmctsprod
-ACR_SUBSCRIPTION := DCD-CFTAPPS-DEV
+ACR_SUBSCRIPTION := DCD-CFTAPPS-DEV-WIF
 
 setup:
 	az account set --subscription ${ACR_SUBSCRIPTION}
