@@ -263,7 +263,6 @@ camunda-bpm:
       RELEASE_REVISION: "{{ .Release.Revision }}"
       CAMUNDA_API_AUTH_ENABLED: false
       WA_INITIATE_TASKS_ON_CREATE_ENABLED: true
-      S2S_SECRET_CAMUNDA_BPM: ${S2S_SECRET_CAMUNDA_BPM}
     secrets:
       CAMUNDA_DB_PASSWORD:
         secretRef: "{{ .Values.global.postgresSecret }}"
